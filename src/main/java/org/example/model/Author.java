@@ -1,7 +1,5 @@
 package org.example.model;
 
-
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,14 +13,12 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Wheel {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Integer size;
-    private String type;
-
-
+    private String firsName;
+    private String secondName;
+    private String address;
 }

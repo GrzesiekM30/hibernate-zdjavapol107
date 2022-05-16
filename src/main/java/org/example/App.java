@@ -4,7 +4,7 @@ import org.example.model.Car;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.Calendar;
+
 
 public class App
 {
