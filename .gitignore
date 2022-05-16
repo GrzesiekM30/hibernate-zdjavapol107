@@ -2,7 +2,7 @@
 ### Java template
 # Compiled class file
 *.class
-
+.idea/
 # Log file
 *.log
 
@@ -11,6 +11,7 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+.gitignore.txt
 
 # Package Files #
 *.jar

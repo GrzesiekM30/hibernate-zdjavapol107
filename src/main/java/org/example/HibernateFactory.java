@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.model.Wheel;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -15,6 +16,8 @@ public class HibernateFactory {
 		configuration.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver");
 		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 //		configuration.setProperty("hibernate.show_sql", "true");
+
+		configuration.addAnnotatedClass(Wheel.class);
 
 		return configuration;
 	}
