@@ -1,8 +1,6 @@
 package org.example.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +11,8 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class Author {
 
     @Id
@@ -21,4 +21,10 @@ public class Author {
     private String firsName;
     private String secondName;
     private String address;
+
+    public Author(String firsName, String secondName, String address) {
+        this.firsName = firsName;
+        this.secondName = secondName;
+        this.address = address;
+    }
 }

@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.Optional;
+
 //CRUD - create, read,update, delete
 //DAO - data access object
 @AllArgsConstructor
@@ -27,6 +29,13 @@ public class MovieDao {
         }
     }
     //readOne
+    public Optional<Movie> getId(Long id){
+        Session session = sessionFactory.openSession();
+        Movie movie = session.find(Movie.class, id);
+        session.close();
+        return Optional.ofNullable(movie);
+
+    }
     //readAll -
     //update
     //delete

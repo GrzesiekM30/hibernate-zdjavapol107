@@ -3,6 +3,7 @@ package org.example.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Movie {
 
 
@@ -20,4 +22,9 @@ public class Movie {
     @Column(nullable = false)
     private String title;
     private LocalDate releaseData;
+
+    public Movie(String title, LocalDate releaseData) {
+        this.title = title;
+        this.releaseData = releaseData;
+    }
 }
