@@ -1,8 +1,12 @@
 package org.example;
 
+import org.example.dao.AuthorDao;
+import org.example.dao.BadgeDao;
+import org.example.dao.MovieDao;
 import org.example.dao.old.OldAuthorDao;
 import org.example.dao.old.OldMovieDao;
 import org.example.model.Author;
+import org.example.model.Badge;
 import org.example.model.Movie;
 import org.hibernate.SessionFactory;
 
@@ -31,8 +35,39 @@ public class App
 
         deleteExample(oldAuthorDao);
 
+        MovieDao movieDao = new MovieDao(sessionFactory);
+        BadgeDao badgeDao = new BadgeDao(sessionFactory);
+        AuthorDao authorDao = new AuthorDao(sessionFactory);
+
+        oneToOneRelationExample(movieDao, badgeDao);
+
+        Author authorPeter = new Author("Peter", "Jackson", "New Zeland");
+        Movie lotr = new Movie("Lord of the Rings", LocalDate.of(2002, 9, 15));
+        Movie hobbit = new Movie("Hobbit", LocalDate.of(2015, 8, 10));
+
+        lotr.setAuthor(authorPeter);
+        hobbit.setAuthor(authorPeter);
+
+        authorDao.save(authorPeter);
+        movieDao.save(lotr);
+        movieDao.save(hobbit);
+
 
         sessionFactory.close();
+    }
+
+    private static void oneToOneRelationExample(MovieDao movieDao, BadgeDao badgeDao) {
+        Movie projectXMovie = new Movie("Project X", LocalDate.of(2012, 11, 1));
+        Badge badge = new Badge();
+        badge.setName("Great badge, great movie");
+        badge.setValue(3);
+
+        projectXMovie.setBadge(badge);
+        //badge.setMovie(projectXMovie);
+
+        //kolejność jest ważna!!! musi być tak jak pod spodem
+        badgeDao.save(badge);
+        movieDao.save(projectXMovie);
     }
 
     private static void deleteExample(OldAuthorDao oldAuthorDao) {

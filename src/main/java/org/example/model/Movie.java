@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +23,12 @@ public class Movie {
     @Column(nullable = false)
     private String title;
     private LocalDate releaseData;
+    @OneToOne
+    private Badge badge;
+    @ManyToOne
+    private Author author;
+    @ManyToMany
+    private Set<Actor> actors;
 
     public Movie(String title, LocalDate releaseData) {
         this.title = title;

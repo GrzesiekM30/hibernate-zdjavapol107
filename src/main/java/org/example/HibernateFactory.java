@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.model.Author;
+import org.example.model.Badge;
 import org.example.model.Movie;
 import org.example.model.Wheel;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,7 @@ public class HibernateFactory {
 		//configuration.addAnnotatedClass(Wheel.class);
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Author.class);
+		configuration.addAnnotatedClass(Badge.class);
 
 		return configuration;
 	}
