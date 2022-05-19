@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+//@ToString
 public class Movie {
 
 
@@ -27,7 +28,7 @@ public class Movie {
     private Badge badge;
     @ManyToOne
     private Author author;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Set<Actor> actors;
 
     public Movie(String title, LocalDate releaseData) {

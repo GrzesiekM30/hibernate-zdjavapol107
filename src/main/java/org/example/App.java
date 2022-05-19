@@ -1,10 +1,13 @@
 package org.example;
 
+
+import org.example.dao.ActorDao;
 import org.example.dao.AuthorDao;
 import org.example.dao.BadgeDao;
 import org.example.dao.MovieDao;
 import org.example.dao.old.OldAuthorDao;
 import org.example.dao.old.OldMovieDao;
+import org.example.model.Actor;
 import org.example.model.Author;
 import org.example.model.Badge;
 import org.example.model.Movie;
@@ -13,6 +16,7 @@ import org.hibernate.SessionFactory;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Set;
 
 
 public class App
@@ -38,9 +42,57 @@ public class App
         MovieDao movieDao = new MovieDao(sessionFactory);
         BadgeDao badgeDao = new BadgeDao(sessionFactory);
         AuthorDao authorDao = new AuthorDao(sessionFactory);
+        ActorDao actorDao = new ActorDao(sessionFactory);
 
         oneToOneRelationExample(movieDao, badgeDao);
 
+        oneToManyExample(movieDao, authorDao);
+
+        manyToManyExample(movieDao, actorDao);
+
+        hqlExample(badgeDao, actorDao);
+
+
+        sessionFactory.close();
+    }
+
+    private static void hqlExample(BadgeDao badgeDao, ActorDao actorDao) {
+        System.out.println("ALL BADGES:");
+        badgeDao.getAllBadges().forEach(System.out::println);
+        System.out.println("ALL ZENEK'S;");
+        actorDao.getByName("Zenek").forEach(System.out::println);
+        System.out.println("UPDATE!! Zmiana Zenka na Zenona");
+        actorDao.updateAllNames("Zenek","Zenon");
+        actorDao.getByName("Zenon").forEach(System.out::println);
+    }
+
+    private static void manyToManyExample(MovieDao movieDao, ActorDao actorDao) {
+        Actor actor1 = new Actor();
+        actor1.setName("Jurek");
+        actor1.setYearsOfExperience(4);
+        Actor actor2 = new Actor();
+        actor2.setName("Zenek");
+        actor2.setYearsOfExperience(2);
+
+        Movie movie1 = new Movie("Jurek i Zenek", LocalDate.now());
+        Movie movie2 = new Movie("Jurek i Zenek Ostateczne Starcie", LocalDate.now());
+        //te dwa settery nie są konieczne ale jak mamy poprawnie zdefiniowane relacjie możemy ich użyć i tak
+        //actor1.setMovies(Set.of(movie1,movie2));
+        //actor2.setMovies(Set.of(movie1,movie2));
+
+        movie1.setActors(Set.of(actor1,actor2));
+        movie2.setActors(Set.of(actor1,actor2));
+
+        //najpierw trzeba zapisać aktorów a poźniej filmy do których ich przypisaliśmy
+        //w każdej relacji ta kolejność jest ważna
+        actorDao.save(actor1);
+        actorDao.save(actor2);
+
+        movieDao.save(movie1);
+        movieDao.save(movie2);
+    }
+
+    private static void oneToManyExample(MovieDao movieDao, AuthorDao authorDao) {
         Author authorPeter = new Author("Peter", "Jackson", "New Zeland");
         Movie lotr = new Movie("Lord of the Rings", LocalDate.of(2002, 9, 15));
         Movie hobbit = new Movie("Hobbit", LocalDate.of(2015, 8, 10));
@@ -51,9 +103,6 @@ public class App
         authorDao.save(authorPeter);
         movieDao.save(lotr);
         movieDao.save(hobbit);
-
-
-        sessionFactory.close();
     }
 
     private static void oneToOneRelationExample(MovieDao movieDao, BadgeDao badgeDao) {

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class EntityDao <T>{
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
     private Class<T> clazz;
 
     //create
